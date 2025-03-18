@@ -1,5 +1,6 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { formatPrice, customFetch, generateAmountOptions } from "../utils";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addItem } from "../features/cart/cartSlice";
@@ -7,7 +8,7 @@ import { addItem } from "../features/cart/cartSlice";
 const singleProductQuery = (id) => {
   return {
     queryKey: ["singleProduct", id],
-    queryFn: () => customFetch(`/products/${params.id}`),
+    queryFn: () => customFetch(`/products/${id}`),
   };
 };
 
@@ -17,6 +18,7 @@ export const loader =
     const response = await queryClient.ensureQueryData(
       singleProductQuery(params.id)
     );
+
     return { product: response.data.data };
   };
 
@@ -69,7 +71,7 @@ const SingleProduct = () => {
           alt={title}
           className="w-96 h-96 object-cover rounded-lg lg:w-full"
         />
-        {/* INFO TEXT */}
+        {/* PRODUCT */}
         <div>
           <h1 className="capitalize text-3xl font-bold">{title}</h1>
           <h4 className="text-xl text-neutral-content font-bold mt-2">
@@ -100,8 +102,8 @@ const SingleProduct = () => {
           </div>
           {/* AMOUNT */}
           <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <h4 className="text-md font-medium tracking-wider capitalize">
+            <label className="label" htmlFor="amount">
+              <h4 className="text-md font-medium -tracking-wider capitalize">
                 amount
               </h4>
             </label>
@@ -125,5 +127,4 @@ const SingleProduct = () => {
     </section>
   );
 };
-
 export default SingleProduct;
